@@ -1,0 +1,124 @@
+html, body {
+    font-family: 'Open Sans',sans-serif;
+    height: 100%;
+    min-height: 700px;
+    min-width: 1024px;
+    overflow: hidden;
+    width: 100%;
+}
+
+body {
+    background: radial-gradient(ellipse at center center , #ffffff 0%, #dad9d9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.view {
+    min-width: 1024px;
+    perspective: 600px;
+    perspective-origin: 50% 50%;
+    position: absolute;
+    text-align: center;
+    top: 33%;
+    width: 100%;
+    z-index: 1;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 300;
+}
+
+.close-warning {
+    color: red;
+}
+
+.welcome-description,
+.initiate-lab,
+.ready-lab{
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    width: -moz-fit-content;
+    width: -webkit-max-content;
+    line-height: 25px;
+}
+
+.navigation {
+    background: none repeat scroll 0 0 rgba(201, 201, 201, 0.3);
+    bottom: -120px;
+    left: 50%;
+    margin-left: -150px;
+    padding: 15px;
+    position: absolute;
+    text-align: center;
+    width: 250px;
+    z-index: 100;
+}
+
+.navigation a,
+.ready-button a {
+    text-decoration:none;
+    display: block;
+    font-size: 20px;
+    color: #384353;
+    opacity: 0.4;
+}
+
+div.ready-lab div.links table tr td .ready-button a {
+    font-size: 15px;
+    opacity: 0.62;
+}
+
+.ready-button {
+    background: none repeat scroll 0 0 rgba(201, 201, 201, 0.3);
+    padding: 8px;
+    text-align: center;
+}
+
+.juniper-preloader {
+    animation: 4s linear 0s normal none infinite spin;
+    left: 50%;
+    margin: -60px 0 -20px -175px;
+    position: relative;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg) ; } }
+
+.reasons {
+    margin-top: 40px;
+}
+.running {
+    font-size: 20px;
+}
+
+div.ready-lab div.credentials div.inner-credentials span {
+    font-style: italic;
+    color: #636363;
+    margin-right: 20px;
+}
+
+.inner-credentials {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 22px;
+    width: 282px;
+}
+
+.credentials,
+.instructions,
+.links {
+    margin-top: 20px;
+}
+
+div.container div.ready-lab table {
+    width: 100%;
+}
+
+div.container div.ready-lab table tr td {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.last {
+    text-align: right;
+}

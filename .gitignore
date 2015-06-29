@@ -1,0 +1,11 @@
+node_modules
+dist
+target
+.tmp
+.sass-cache
+src/bower_components
+.idea
+.iml
+atlassian-ide-plugin.xml
+test-results.xml
+ravello-juniper-vsrx-ui.iml
