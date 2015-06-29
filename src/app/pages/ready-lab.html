@@ -21,17 +21,19 @@
             <tbody>
                 <tr>
                     <td>vSRX</td>
-                    <td><div class="ready-button"><a target="_blank" href="#" class="jweb-button">JWeb</a></div></td>
-                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId=1146950&vmId=2606614420914176&x=1435610252145" class="console-button">Console</a></div></td>
+                    <td><div class="ready-button"><a target="_blank" href="http://{{application.deployment.vms[0].externalFqdn}}" class="jweb-button">JWeb</a></div></td>
+                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{application.id}}&vmId={{application.deployment.vms[0].id}}&x={{Date.now()}}"
+                                                     class="console-button">Console</a></div></td>
                     <td class="last"></td>
-                    <td class="last">SSH:    ssh root@asda.rav.cloud.com</td>
+                    <td class="last">SSH:    ssh root@{{application.deployment.vms[0].externalFqdn}}</td>
                 </tr>
                 <tr>
                     <td>Ubuntu</td>
                     <td></td>
-                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId=1146950&vmId=2606614420914176&x=1435610252145" class="console-button">Console</a></div></td>
+                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{application.id}}&vmId={{application.deployment.vms[1].id}}&x={{Date.now()}}"
+                                                     class="console-button">Console</a></div></td>
                     <td class="last"></td>
-                    <td class="last">SSH:    ssh root@rsfds.rav.cloud.com</td>
+                    <td class="last">SSH:    ssh root@{{application.deployment.vms[1].externalFqdn}}</td>
                 </tr>
             </tbody>
         </table>
