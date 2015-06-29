@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('ravello.juniper.vsrx')
-    .controller('appController', function($scope, appProperties, stringUtils, appProxy, $interval, $location) {
+    .constant('CONSTANTS', {
+        applicationNamePrefix: 'juniper_vsrx_'
+    })
+    .controller('appController', function($scope, appProperties, stringUtils, appProxy, $interval, $location, CONSTANTS) {
 
         //TODO: handle one place where result is returned
         //TODO: handle some errors
@@ -11,30 +14,28 @@ angular.module('ravello.juniper.vsrx')
 
         //TODO: refactor this
         $scope.initiateLab = function() {
-            $scope.createApplicationFromBlueprint()
-                .success(function(result) {
-                    $scope.application = result;
-                    if (!$scope.application) {
-                        //TODO: throw some error
-                    }
-                    $scope.publishApplication($scope.application.id)
-                        .success(function(result) {
-                            $scope.enableScheduler();
-                            //TODO: disable scheduler
-                        });
+            $scope.createApplicationFromBlueprint().then(function(response) {
+                $scope.application = response.data;
+                if (!$scope.application) {
+                    //TODO: throw some error
+                }
+                $scope.publishApplication($scope.application.id)
+                    .success(function(response) {
+                        $scope.enableScheduler();
+                        //TODO: disable scheduler
+                    });
             });
         };
 
         //TODO: handle some errors
         $scope.getApplication = function(applicationId) {
-            appProxy.getApplication(applicationId).
-                success(function(result) {
-                    $scope.application = result;
-                });
+            appProxy.getApplication(applicationId).then(function(result) {
+                $scope.application = result.data;
+            });
         };
 
         $scope.createApplicationFromBlueprint = function() {
-            var blueprintName = 'juniper_vsrx_' + stringUtils.generateRandomString();
+            var blueprintName = CONSTANTS.applicationNamePrefix + stringUtils.generateRandomString();
             var blueprint =  {
                 name: blueprintName,
                 baseBlueprintId: $scope.blueprintId
