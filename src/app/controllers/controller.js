@@ -2,7 +2,10 @@
 
 angular.module('ravello.juniper.vsrx')
     .constant('CONSTANTS', {
-        applicationNamePrefix: 'juniper_vsrx_'
+        applicationNamePrefix: 'juniper_vsrx_',
+        samplingInterval: 15,
+        started: 'STARTED',
+        error: "ERROR"
     })
     .controller('appController', function($scope, appProperties, stringUtils, appProxy, $interval, $location, CONSTANTS) {
 
@@ -17,12 +20,11 @@ angular.module('ravello.juniper.vsrx')
             $scope.createApplicationFromBlueprint().then(function(response) {
                 $scope.application = response.data;
                 if (!$scope.application) {
-                    //TODO: throw some error
+                    $scope.redirect('/error');
                 }
                 $scope.publishApplication($scope.application.id)
-                    .success(function(response) {
-                        $scope.enableScheduler();
-                        //TODO: disable scheduler
+                    .success(function() {
+                        $scope.enablePoller();
                     });
             });
         };
@@ -47,36 +49,43 @@ angular.module('ravello.juniper.vsrx')
             return appProxy.publishApplication(applicationId);
         };
 
-        $scope.disableScheduler = function() {
+        $scope.disablePoller = function() {
             if (angular.isDefined($scope.stop)){
                 $interval.cancel($scope.stop);
                 $scope.stop = undefined;
             }
         };
 
-        $scope.enableScheduler = function() {
+        $scope.enablePoller = function() {
             if (!angular.isDefined($scope.stop)) {
                 $scope.stop = $interval(function() {
-                    if (!$scope.isStarted()) {
+                    if (!$scope.isVmsAtState(CONSTANTS.started, 2)) {
                         $scope.getApplication($scope.application.id);
                     } else {
-                        $scope.disableScheduler();
-                        $location.path("/ready");
+                        $scope.disablePoller();
+                        if ($scope.isVmsAtState(CONSTANTS.started, 2)) {
+                            $scope.redirect('/ready');
+                        } else if ($scope.isVmsAtState(CONSTANTS.error, 0)) {
+                            $scope.redirect('/error');
+                        }
                     }
-                }, 15 * 1000);
+                }, CONSTANTS.samplingInterval * 1000);
             }
         };
 
-        //TODO: handle errors
-        $scope.isStarted = function() {
+        $scope.isVmsAtState = function(state, amount) {
             if (!$scope.application.deployment) {
                 return false;
             }
             var vms = $scope.application.deployment.vms;
-            var startedVms = _(vms).filter(function(vm) {
-                    return vm.state == 'STARTED';
+            var vmsState = _(vms).filter(function(vm) {
+                    return _.startsWith(vm.state, state);
                 }).pluck('id').value();
-            return startedVms.length == 2
+            return vmsState.length >= amount;
+        };
+
+        $scope.redirect = function(url) {
+            $location.path(url);
         };
 
 });

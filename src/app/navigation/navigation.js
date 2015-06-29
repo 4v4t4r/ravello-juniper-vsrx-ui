@@ -18,5 +18,10 @@ angular.module('ravello.juniper.vsrx')
                 templateUrl: 'app/pages/ready-lab.html',
                 controller: 'appController'
             })
+            .state('error', {
+                url: '/error',
+                templateUrl: 'app/pages/error.html',
+                controller: 'appController'
+            })
     });
 
