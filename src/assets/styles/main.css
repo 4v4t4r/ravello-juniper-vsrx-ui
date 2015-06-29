@@ -17,7 +17,7 @@ body {
     perspective-origin: 50% 50%;
     position: absolute;
     text-align: center;
-    top: 33%;
+    top: 25%;
     width: 100%;
     z-index: 1;
 }
@@ -29,6 +29,10 @@ h1 {
 
 .close-warning {
     color: red;
+}
+
+.welcome-headline {
+    margin-top: 8%;
 }
 
 .welcome-description,

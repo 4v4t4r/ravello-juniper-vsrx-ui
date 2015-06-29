@@ -9,23 +9,17 @@ angular.module('ravello.juniper.vsrx')
     })
     .controller('appController', function($scope, appProperties, stringUtils, appProxy, $interval, $location, CONSTANTS) {
 
-        //TODO: handle one place where result is returned
-        //TODO: handle some errors
 
         $scope.blueprintId = appProperties.blueprintId;
         $scope.application = undefined;
 
-        //TODO: refactor this
         $scope.initiateLab = function() {
             $scope.createApplicationFromBlueprint().then(function(response) {
                 $scope.application = response.data;
                 if (!$scope.application) {
                     $scope.redirect('/error');
                 }
-                $scope.publishApplication($scope.application.id)
-                    .success(function() {
-                        $scope.enablePoller();
-                    });
+                $scope.publishApplication($scope.application.id);
             });
         };
 
@@ -46,7 +40,9 @@ angular.module('ravello.juniper.vsrx')
         };
 
         $scope.publishApplication = function(applicationId) {
-            return appProxy.publishApplication(applicationId);
+            appProxy.publishApplication(applicationId).then(function(response) {
+                $scope.enablePoller();
+            });
         };
 
         $scope.disablePoller = function() {
