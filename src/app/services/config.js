@@ -23,4 +23,4 @@ angular.module('ravello.juniper.vsrx')
         this.$get = function() {
             return properties;
         };
-});
+    });

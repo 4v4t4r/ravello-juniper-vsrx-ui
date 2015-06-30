@@ -3,7 +3,7 @@
 angular.module('ravello.juniper.vsrx')
     .service('appProxy', function ($http) {
 
-        var BASE_PATH = "/api/v1/";
+        var BASE_PATH = '/api/v1/';
 
         this.getApplication = function (applicationId) {
             return $http.get(BASE_PATH + 'applications/' + applicationId);
@@ -17,8 +17,7 @@ angular.module('ravello.juniper.vsrx')
             var config = { headers:  {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
-                }
-            };
+            }};
             return $http.post(BASE_PATH + 'applications/' + applicationId + '/publish', config);
         };
-});
+    });

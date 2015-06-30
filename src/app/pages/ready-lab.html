@@ -21,19 +21,19 @@
             <tbody>
                 <tr>
                     <td>vSRX</td>
-                    <td><div class="ready-button"><a target="_blank" href="http://{{application.deployment.vms[0].externalFqdn}}" class="jweb-button">JWeb</a></div></td>
-                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{application.id}}&vmId={{application.deployment.vms[0].id}}&x={{Date.now()}}"
+                    <td><div class="ready-button"><a target="_blank" href="http://{{getModelApplication().deployment.vms[0].externalFqdn}}" class="jweb-button">JWeb</a></div></td>
+                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{getModelApplication().id}}&vmId={{getModelApplication().deployment.vms[0].id}}&x={{Date.now()}}"
                                                      class="console-button">Console</a></div></td>
                     <td class="last"></td>
-                    <td class="last">SSH:    ssh root@{{application.deployment.vms[0].externalFqdn}}</td>
+                    <td class="last">SSH:    ssh root@{{getModelApplication().deployment.vms[0].externalFqdn}}</td>
                 </tr>
                 <tr>
                     <td>Ubuntu</td>
                     <td></td>
-                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{application.id}}&vmId={{application.deployment.vms[1].id}}&x={{Date.now()}}"
+                    <td><div class="ready-button"><a target="_blank" href="/go/vnc?appId={{getModelApplication().id}}&vmId={{getModelApplication().deployment.vms[1].id}}&x={{Date.now()}}"
                                                      class="console-button">Console</a></div></td>
                     <td class="last"></td>
-                    <td class="last">SSH:    ssh root@{{application.deployment.vms[1].externalFqdn}}</td>
+                    <td class="last">SSH:    ssh root@{{getModelApplication().deployment.vms[1].externalFqdn}}</td>
                 </tr>
             </tbody>
         </table>

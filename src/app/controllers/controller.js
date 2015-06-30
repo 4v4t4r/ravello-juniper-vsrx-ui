@@ -5,9 +5,10 @@ angular.module('ravello.juniper.vsrx')
         applicationNamePrefix: 'juniper_vsrx_',
         samplingInterval: 15,
         started: 'STARTED',
-        error: "ERROR"
+        error: 'ERROR'
     })
-    .controller('appController', function($scope, appProperties, stringUtils, appProxy, $interval, $location, CONSTANTS) {
+    .controller('appController',
+    function($scope, model, appProperties, stringUtils, appProxy, $interval, $location, CONSTANTS) {
 
 
         $scope.blueprintId = appProperties.blueprintId;
@@ -15,18 +16,17 @@ angular.module('ravello.juniper.vsrx')
 
         $scope.initiateLab = function() {
             $scope.createApplicationFromBlueprint().then(function(response) {
-                $scope.application = response.data;
-                if (!$scope.application) {
+                model.setApplication(response.data);
+                if (!$scope.getModelApplication()) {
                     $scope.redirect('/error');
                 }
-                $scope.publishApplication($scope.application.id);
+                $scope.publishApplication($scope.getModelApplication().id);
             });
         };
 
-        //TODO: handle some errors
         $scope.getApplication = function(applicationId) {
             appProxy.getApplication(applicationId).then(function(result) {
-                $scope.application = result.data;
+                model.setApplication(result.data);
             });
         };
 
@@ -40,7 +40,7 @@ angular.module('ravello.juniper.vsrx')
         };
 
         $scope.publishApplication = function(applicationId) {
-            appProxy.publishApplication(applicationId).then(function(response) {
+            appProxy.publishApplication(applicationId).then(function () {
                 $scope.enablePoller();
             });
         };
@@ -56,7 +56,7 @@ angular.module('ravello.juniper.vsrx')
             if (!angular.isDefined($scope.stop)) {
                 $scope.stop = $interval(function() {
                     if (!$scope.isVmsAtState(CONSTANTS.started, 2)) {
-                        $scope.getApplication($scope.application.id);
+                        $scope.getApplication($scope.getModelApplication().id);
                     } else {
                         $scope.disablePoller();
                         if ($scope.isVmsAtState(CONSTANTS.started, 2)) {
@@ -70,10 +70,10 @@ angular.module('ravello.juniper.vsrx')
         };
 
         $scope.isVmsAtState = function(state, amount) {
-            if (!$scope.application.deployment) {
+            if (!$scope.getModelApplication().deployment) {
                 return false;
             }
-            var vms = $scope.application.deployment.vms;
+            var vms = $scope.getModelApplication().deployment.vms;
             var vmsState = _(vms).filter(function(vm) {
                     return _.startsWith(vm.state, state);
                 }).pluck('id').value();
@@ -84,5 +84,8 @@ angular.module('ravello.juniper.vsrx')
             $location.path(url);
         };
 
-});
+        $scope.getModelApplication = function() {
+            return model.getApplication();
+        };
+    });
 
